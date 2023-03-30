@@ -1,0 +1,211 @@
+\documentclass[5pt]{article}
+%\usepackage{fontspec}
+%\setsansfont{Roboto Condensed}
+\usepackage{multicol}
+\usepackage{calc}
+\usepackage{ifthen}
+\usepackage[landscape]{geometry}
+\usepackage{amsmath,amsthm,amsfonts,amssymb}
+\usepackage{color,graphicx,overpic}
+\usepackage{hyperref}
+\usepackage{gensymb}
+\usepackage[sfdefault, condensed]{roboto}
+\geometry{top=0.1cm,left=0.1cm,right=0.1cm,bottom=0.2cm}
+%I would do the following,
+%1. Review the lectures for the theoretical parts (this is the multiple-choice questions)
+%2. How the open loop gain and the closed loop gain are linked to each other and which open loop gain you need for a certain accuracy, how to get the gain in dB
+%3. Review how to get the transfer functions of amplifiers (inverting, non-inverting amplifiers, superposition principle to be able to get the CMRR, the differential mode gain of amplifiers).  Remember also virtual ground property of amplifiers to simplify much analysis
+%4.Sensors types are important (especially resistive, capacitive, and temperature sensors)
+%5.DAC types and how to get INL and DNL
+%6.Taylor series to approximate functions as I told you in the exercise session
+
+% This sets page margins to .5 inch if using letter paper, and to 1cm
+% if using A4 paper. (This probably isn't strictly necessary.)
+% If using another size paper, use default 1cm margins.
+%\ifthenelse{\lengthtest { \paperwidth = 11in}}
+%    { \geometry{top=.5in,left=.5in,right=.5in,bottom=.5in} }
+%    {\ifthenelse{ \lengthtest{ \paperwidth = 297mm}}
+%        {\geometry{top=1cm,left=1cm,right=1cm,bottom=1cm} }
+%        {\geometry{top=1cm,left=1cm,right=1cm,bottom=1cm} } 
+%    }
+
+% Turn off header and footer
+\pagestyle{empty}
+
+% Redefine section commands to use less space
+\makeatletter
+\renewcommand{\section}{\@startsection{section}{1}{0mm}%
+                                {-1ex plus -.5ex minus -.2ex}%
+                                {0.5ex plus .2ex}%x
+                                {\normalfont\large\bfseries}}
+\renewcommand{\subsection}{\@startsection{subsection}{2}{0mm}%
+                                {-1explus -.5ex minus -.2ex}%
+                                {0.5ex plus .2ex}%
+                                {\normalfont\normalsize\bfseries}}
+\renewcommand{\subsubsection}{\@startsection{subsubsection}{3}{0mm}%
+                                {-1ex plus -.5ex minus -.2ex}%
+                                {1ex plus .2ex}%
+                                {\normalfont\small\bfseries}}
+\makeatother
+
+% Define BibTeX command
+\def\BibTeX{{\rm B\kern-.05em{\sc i\kern-.025em b}\kern-.08em
+    T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
+
+% Don't print section numbers
+\setcounter{secnumdepth}{0}
+
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0pt plus 0.5ex}
+
+%My Environments
+\newtheorem{example}[section]{Example}
+% -----------------------------------------------------------------------
+
+\begin{document}
+\raggedright
+\footnotesize
+\begin{multicols*}{4}
+
+
+% multicol parameters
+% These lengths are set only within the two main columns
+%\setlength{\columnseprule}{0.25pt}
+\setlength{\premulticols}{1pt}
+\setlength{\postmulticols}{1pt}
+\setlength{\multicolsep}{1pt}
+\setlength{\columnsep}{2pt}
+
+\begin{center}
+     \Large{\underline{TMS II}} \\
+ 
+\end{center}
+
+
+% Summary starts here
+% --------------------------------------------------------------------------------------
+\subsection{Begriffsdefinitionen}
+\subsubsection{Konfigurationsmanagement}
+KM stellt sicher, dass Produkte eindeutig identifizierbar sind, Zusammenhänge und Unterschiede von
+verschiedenen Versionen einer Konfiguration erkennbar bleiben und Produktänderungen nur kontrolliert durchgeführt werden können.
+Arten der Durchführung:
+- Automatisch (z.B. Git)\\
+- Manuell\\
+- Semi-automatisch (z.B. unterstützende Plugins)\\
+\textbf{Build-Management}\\
+Unter Build-Management wird diejenige Funktion verstanden, die alle Bauteile einer Konfiguration
+erzeugt, die nicht direkt vom Benutzer erstellt oder durch das System vorgegeben wurden. Zentrale Fragen: Wie ist die Software zusammengestellt? Welche Abhängigkeiten müssen berücksichtigt werden? Beispiele für klassische Abhängigkeiten:
+o Entwicklungsumgebung: Editor, Generatoren, Compiler, Linker, …\\
+o Basissoftware: LAN, ...\\
+o Betriebssystem\\
+o Hardware\\
+\textbf{Change-Management}\\
+Im Änderungswesen muss definiert werden, wie Änderungswünsche (Change Requests) erfasst
+werden, wie und durch wen diese bewertet werden und wie die Durchführung von Änderungen
+zu erfolgen hat.\\
+- Versions-Management (Wer hat wann was geändert?)
+Versionsmanagement befasst sich (in erster Linie mit der Verwaltung der zeitlich aufeinander folgenden Revisionen eines Dokuments.)
+\textbf{Release-Management}\\
+Ein Release ist eine an Kunden ausgelieferte Konfiguration eines (Software-)Systems, bestehend
+aus ausführbaren Programmen, Bibliotheken, Dokumentation, Quelltexten, Installationsskripten
+und so weiter. Das Release-Managementdokumentiert ausgelieferte Konfigurationen und stellt
+deren Rekonstruierbarkeit sicher.
+Geplant
+\subsubsection{Produktzustände}
+\textbf{In Bearbeitung}\\
+Das Produkt wird bearbeitet. Es befindet sich entweder im privaten Entwicklungsbereich des
+Entwicklers oder unter Kontrolle des Entwicklers innerhalb der Produktbibliothek.\\
+\textbf{Vorgelegt}\\
+Das Produkt ist aus der Sicht des Erstellers fertig und wird der Konfigurationsverwaltung übergeben. Ab jetzt kann es einer Prüfung durch die Qualitätssicherung unterzogen werden. Wird das
+Produkt hierbei abgelehnt, so geht es wieder in den Zustand in Bearb. zurück, andernfalls rückt
+es in den Zustand akzeptiert vor. Ab dem Zustand vorgelegt an kann der Ersteller nur unter
+Fortschreibung der Versionsangabe Modifikationen durchführen.\\
+\textbf{Akzeptiert}\\
+Das Produkt wurde durch die QS überprüft und freigegeben. Es darf nur noch innerhalb einer
+neuen Version geändert werden.
+\columnbreak
+\subsection{CTL}
+\subsubsection{Pfadoperatoren:}
+- $A \phi$ - auf allen Pfaden folgt $\phi$ (englisch: AIl) \\ 
+- E $\phi$ - auf mindestens einem Pfad folgt $\phi$ (englisch: Exists) \\ 
+\subsubsection{Pfad-spezifische Operatoren:}
+- $X \phi$ - unmittelbar folgt $\phi$ (englisch: neXt state) \\ 
+- $F \phi$-irgendwann folgt $\phi$ (englisch: some Future state oder Finally) \\ 
+- $G \phi$ - auf dem folgenden Pfad folgt in jedem Zustand $\phi$ (englisch: Globally) \\ 
+- $\phi U \psi-\phi$ folgt bis zum Erreichen des Zustands $\psi$ (englisch: Until) \\ 
+- $\phi W \psi-\phi$ folgt immer oder bis zum Erreichen des Zustands $\psi$ (englisch: Weak Until) \\ 
+- $E X \phi$ - in (mind.) einem nächsten Zustand gilt $\phi$ \\ 
+- $E F \phi$ - in (mind.) einem der folgenden Zustände gilt $\phi$ \\ 
+- EG $\phi$ - es gibt (mind.) einen Pfad, so dass $\phi$ entlang des ganzen Pfades gilt \\ 
+- $E[\phi U \psi]$ - es gibt einen Pfad, für den gilt: bis zum ersten Auftreten von $\psi$ gilt $\phi$ \\ 
+- $A X \phi$ - in jedem nächsten Zustand gilt $\phi$ \\ 
+- AF $\phi$ - man erreicht immer einen Zustand, in dem $\phi$ gilt \\ 
+- $A G \phi$ - auf allen Pfaden gilt in jedem Zustand $\phi$ \\ 
+- $A[\phi U \psi]$ - es gilt immer $\phi$ bis zum ersten Auftreten von $\psi$ \\ 
+\subsubsection{Semantik}
+- $T\left(s_0\right) \models \neg \phi \quad \Leftrightarrow \quad T\left(s_0\right) \not \models \phi$ \\ 
+- $T\left(s_0\right) \models \phi \vee \psi \quad \Leftrightarrow \quad T\left(s_0\right) \models \phi \operatorname{oder} T\left(s_0\right) \models \psi$ \\ 
+- $T\left(s_0\right) \models E X \phi \quad \Leftrightarrow \quad T\left(s_1\right) \models \phi$ \\ 
+- $T\left(s_0\right) \models E G \phi \quad \Leftrightarrow \quad \forall i: T\left(s_i\right) \models \phi$ \\ 
+- $T\left(s_0\right) \models \phi E U \psi \quad \Leftrightarrow \quad \exists k: T\left(s_k\right) \models \psi \wedge \forall i<k: T\left(s_i\right) \models \phi$ \\ 
+\subsubsection{Transformationen} 
+- $\neg A \phi \equiv E \neg \phi$ \\ 
+- $\neg A F \phi \equiv E G \neg \phi$ \\ 
+- $\neg E F \phi \equiv A G \neg \phi$ \\ 
+- $\neg A X \phi \equiv E X \neg \phi$ \\ 
+- $A G \phi \equiv \phi \wedge A X A G \phi$ \\ 
+- $E G \phi \equiv \phi \wedge E X E G \phi$ \\ 
+- $A F \phi \equiv \phi \vee A X A F \phi$ \\ 
+- $E F \phi \equiv \phi \vee E X E F \phi$ \\ 
+- $A[\phi U \psi] \equiv \psi \vee(\phi \wedge A X A[\phi U \psi])$ \\ 
+- $E[\phi U \psi] \equiv \psi \vee(\phi \wedge E X E[\phi U \psi])$
+\subsection{Wahrheitstabelle}
+$    \begin{array}{|c c|c|c|c|}
+
+    p & q & p \land q & p\lor q  & p \rightarrow q  \\ 
+    \hline % Put a horizontal line between the table header and the rest.
+    T & T & T& T& T\\
+    T & F & F& T& F\\
+    F & T & F& T& T\\
+    F & F & F& F& T\\
+    \end{array}
+ $
+
+
+
+
+
+\end{multicols*}
+\end{document}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
