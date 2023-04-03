@@ -171,11 +171,117 @@ $    \begin{array}{|c c|c|c|c|}
     F & F & F& F& T\\
     \end{array}
  $
+\section{Aufwandsschätzung}
+% \textbf{Wenn Entwicklung und Wartung in Aufgabentext getrennt gilt Integal nicht Exponentialformeln. für $N_W$ wird mit $k$ multipliziert. $N_e $}
+\subsection{Entwicklungsleistung bekannt}
+\textbf{Gesamtleistung} $N_G(t)=f(t)+k \cdot \int f(t) \cdot d t+C$\\
+\textbf{Wartungsleistung} $N_W(t)=k \cdot \int f(t) \cdot d t+C$\\
+\textbf{Entwicklungsleistung} $N_E(t) = f(t)$\\
+\textbf{Gesamtarbeit} $A_G(t)=A_E(t)+A_W(t)$\\
+\textbf{Entwicklungsarbeit} $A_E(t)=\int f(t) \cdot d t+C$\\
+\textbf{Wartungsarbeit} $A_W(t)=k \cdot \int\left[\int f(t) \cdot d t+C_1\right] \cdot d t+C_2$\\
 
-
-
-
-
+\subsection{Gesamtleistung bekannt}
+% TODO 3 fälle auf den Folien mitschrieb 4
+\textbf{Gesamtleistung} $g(t)=N_g= [Mann]$ Anzahl Leute \\
+\textbf{Wartungsleistung} $N_W(t)=k \cdot e^{-k t}\left[\int e^{k t} \cdot g(t) d t+C\right] \stackrel{C=0}{=} k \cdot e^{-k t} \cdot N_G \cdot \int_0^t e^{k t} d t=N_G\left(1-e^{-k t}\right)$\\
+\textbf{Entwicklungsleistung} $N_E(t)=N_G-N_W(t)=N_G \cdot e^{-k t}$
+\textbf{Gesamtarbeit} $A_G= N_G \cdot t$\\
+\textbf{Entwicklungsarbeit} $ A_E(t)=\frac{1}{k} \cdot N_G\left(1-e^{-k t}\right)$\\
+\textbf{Wartungsarbeit} $A_W(t)=A_G(t)-A_E(t)=N_G \cdot t-A_E(t)=N_G\left[t-\frac{1}{k} \cdot\left(1-e^{-k t}\right)\right]$\\
+\subsection{Entwicklungsarbeit bekannt}
+\textbf{Gesamtleistung} $N_G(t) = N_E(t) + N_W(t)$\\
+\textbf{Wartungsleistung} $N_W(t)=k \cdot h(t)+C$\\
+\textbf{Entwicklungsleistung} $N_E(t)=\frac{d h(t)}{d t}$\\
+\textbf{Gesamtarbeit} $A_G(t)=h(t)+A_W(t)$\\
+\textbf{Entwicklungsarbeit} $A_E(t) = h(t)$\\
+\textbf{Wartungsarbeit} $A_W(t)=\int[k \cdot h(t)+C] \cdot d t+C_1$
+mit $k=\left[ \dfrac{Mann}{Mannjahr}\right]$ Wartungsintensität\\
+\section{Reverse Engineering}
+\subsection{Structure Chart}
+\includegraphics[width= \columnwidth]{images/structureChart.png}\\
+\includegraphics[width= \columnwidth]{images/bspStructChart.png}\\
+\subsection{Nesting tree}
+Indent tree \\
+TODO Maybe add picture\\
+\section{Datenbanken}
+\subsection{Normalformen}
+\subsubsection{1. Normalform}
+Jedem Datenfeld eines Datensatzes darf höchstens ein Wert
+zugewiesen sein. D.h. es dürfen keine Mehrfacheinträge in einem Datenfeld vorliegen und Attribute müssen atomar sein.
+\includegraphics[width = \columnwidth]{images/1normalformEx.png}
+\subsubsection{2. Normalform}
+Erfüllt 1. Normalform \\
+Eine Tabelle enthält nur Daten eines Themen- bzw. Informationsbereiches.\\
+Aufteilung in mehrere Tabellen nach Themen/ Informationsgebieten.\\
+Jedes Nicht-Schlüsselfeld  muss durch ein Schlüsselfeld identifizierbar sein und vom gesamten Schlüssel abhängen.\\
+Überprüfen und ggf. neue Schlüsselfelder hinzufügen oder zusammengesetzte Schlüssel definieren.\\
+\includegraphics[width = \columnwidth]{images/2normalformEx.png}
+\subsubsection{3. Normalform}
+Ist dann erfüllt, wenn die Tabelle die 2. Normalform erfüllt\\
+Es dürfen keine transitiven (indirekten) Abhängigkeiten vorliegen.\\
+Entfernung aller transitiven Abhängigkeiten durch Aufspalten der Tabelle in mehrere Tabellen, in denen alle Nicht-Schlüsselfelder direkt vom gesamten Schlüsselfeld abhängen\\
+\includegraphics[width = \columnwidth]{images/3normalformEx.png}
+\section{ERD}
+\includegraphics[width = \columnwidth]{images/5uwcF.png}\\
+\includegraphics[width = \columnwidth]{images/9tvIZ.png}\\
+\section{GAIA}
+\subsection{Role Model Template}
+\begin{tabular}{|l|l|}
+    \hline
+    Role Schema:&\\
+    \hline
+    Description:&\\
+    \hline
+    Protocols and \underline{Activities}: & \\
+    \hline
+    Permissions:  & - reads:\\
+    & - changes:\\
+    & - generates:\\
+    \hline
+    Responsibilities: & - Liveness:\\
+    & - Safety:\\
+    \hline
+\end{tabular}\\
+\subsection{Template for Interaction Model}
+\begin{tabular}{|c|c|}
+    \hline
+    [Protocol's name]  &[Inputs]\\
+    \hline
+    [Initiator] \quad \vline  \quad [Responder] & \\
+    \hline
+    [Description] & [Outputs] \\
+    \hline
+\end{tabular}
+\begin{itemize}
+    \item Description: Beschreibung
+    \item Initiator: Rolle
+    \item Responder: Rolle
+    \item Inputs: Informationen des Auslösers
+    \item Outputs: Informationen des Beantworters
+\end{itemize}
+\subsection{Operatoren Ablaufbeschreibung}
+\begin{tabular}{ll}
+    Operator & Interpretation\\
+    $x . y$ & x followed by y\\
+    $x|y  $ & x or y occurs\\
+    $x^* $ & x occurs 0 or more times\\
+    $X+$  & x occurs 1 or more times\\
+    $x^{\omega}$ & x occurs innately often\\
+    $\left[x\right]$ & x is optional\\
+    $ x || y $ & x and y are interleaved(verschachtelt)
+\end{tabular}
+\subsection{Service Model}
+\begin{tabular}{|c|c|c|c|c|}
+    \hline
+    Service & Inputs & Outputs & Precondition& Post-condition \\
+    \hline
+    &&&&\\
+    \hline    
+\end{tabular}
+%  Nesting tree and Structure chart, empty circle is data flow full circle is control flow folien ue5
+% TODO ER Diagramme cheat sheet
+% TODO Revisit ex8 last task
 \end{multicols*}
 \end{document}
 
